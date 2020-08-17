@@ -1,0 +1,40 @@
+@import 'src/assets/styles/mixins.scss';
+@import 'src/assets/styles/colors.scss';
+
+.page {
+  background-color: $light-gray;
+
+  &__content {
+    margin: 20px auto;
+    width: 1100px;
+    min-height: 100vh;
+
+    &-search {
+      @include display-flex (space-between, $wrap: wrap);
+
+      &-header {
+        @include display-flex (space-between);
+      }
+    }
+  }
+
+  &__button {
+    @include display-flex (center);
+    margin-top: 20px;
+  }
+
+  &__results {
+    @include border-style (1px solid $border-color, $radius: 10px);
+    overflow: hidden;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .page {
+    &__content {
+      width: 100%;
+      padding: 0 20px;
+    }
+  }
+}

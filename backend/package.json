@@ -1,0 +1,90 @@
+{
+  "name": "best-price-app",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
+    "start": "nest start",
+    "start:dev": "npm run copy-csv && nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "copy-csv": "cp -rv apps/best-price-app/src/seeds/csv dist/apps/best-price-app/apps/best-price-app/src",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "migration": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js -f apps/best-price-app/src/utils/ormconfig",
+    "migration:create": "npm run migration migration:create -d apps/best-price-app/src/migrations -n",
+    "migration:generate": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:generate -f apps/best-price-app/src/utils/ormconfig -d apps/best-price-app/src/migrations -n",
+    "migration:run": "npm run migration migration:run",
+    "migration:revert": "npm run migration migration:revert",
+    "schema:drop": "npm run migration schema:drop",
+    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config -r $(pwd)/apps/best-price-app/src/utils -c seed",
+    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed -r $(pwd)/apps/best-price-app/src/utils"
+  },
+  "dependencies": {
+    "@nestjs/common": "^6.7.2",
+    "@nestjs/core": "^6.7.2",
+    "@nestjs/platform-express": "^6.7.2",
+    "@nestjs/swagger": "^4.5.12",
+    "@nestjs/typeorm": "^7.1.0",
+    "bcrypt": "^5.0.0",
+    "csv-parser": "^2.3.3",
+    "dotenv": "^8.2.0",
+    "fast-glob": "^3.2.4",
+    "lodash": "^4.17.19",
+    "pg": "^8.3.0",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.0",
+    "rxjs": "^6.5.3",
+    "typeorm": "^0.2.25",
+    "typeorm-seeding": "^1.6.1",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^6.9.0",
+    "@nestjs/schematics": "^6.7.0",
+    "@nestjs/testing": "^6.7.1",
+    "@types/express": "^4.17.1",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.5",
+    "@types/supertest": "^2.0.8",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.1.0",
+    "ts-loader": "^6.1.1",
+    "ts-node": "^8.4.1",
+    "tsconfig-paths": "^3.9.0",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": ".",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src/",
+      "<rootDir>/libs/"
+    ],
+    "moduleNameMapper": {
+      "@lib/item-package-combination/(.*)": "<rootDir>/libs/item-package-combination/src/$1",
+      "@lib/item-package-combination": "<rootDir>/libs/item-package-combination/src"
+    }
+  }
+}

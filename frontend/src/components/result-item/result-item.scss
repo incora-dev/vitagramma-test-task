@@ -1,0 +1,41 @@
+@import 'src/assets/styles/colors.scss';
+@import 'src/assets/styles/mixins.scss';
+
+.result-item {
+  padding-bottom: 20px;
+
+  &__title {
+  @include font-style (16px, bold);
+  }
+
+  &__header {
+    @include display-flex ($align: center);
+    }
+
+  &__group {
+    margin-top: 10px;
+
+    &-item {
+      @include font-style(14px, 400, $black, $lineHeight: 20px);
+    }
+  }
+
+  &__icon {
+    @include display-flex (center, center);
+    @include square (40px);
+    @include border-style ($radius: 0.675rem);
+    margin-right: 10px;
+  }
+
+  &__groups {
+    background-color: $light-pink;
+  }
+
+  &__tests {
+    background-color: $light-orange;
+  }
+
+  &__bonus {
+    background-color: $light-green;
+  }
+}

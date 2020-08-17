@@ -1,0 +1,16 @@
+@import 'src/assets/styles/colors.scss';
+@import 'src/assets/styles/mixins.scss';
+
+.test-item {
+  &__text {
+    @include font-style(14px, 600, $black, $lineHeight: 20px);
+  }
+
+  &__list {
+    @include display-flex ($wrap: wrap);
+
+    p {
+      @include font-style (12px, 400, $gray);
+    }
+  }
+}

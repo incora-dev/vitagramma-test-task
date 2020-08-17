@@ -1,0 +1,82 @@
+@import 'src/assets/styles/colors.scss';
+@import 'src/assets/styles/mixins.scss';
+
+.search-block {
+  @include border-style (1px solid $border-color, $radius: 10px);
+  width: 100%;
+  padding: 20px;
+  min-height: 500px;
+  background-color: $white;
+  overflow: hidden;
+
+  &__items {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
+  &__tags {
+    @include display-flex ($wrap: wrap);
+    margin-bottom: 10px;
+    margin: 10px 0;
+
+    &-item {
+      @include font-style (10px, $lineHeight: 16px);
+      @include display-flex ($align: center);
+      @include border-style ($radius: 5px);
+      padding: 4px 10px;
+      margin: 0 10px 5px 0;
+      background-color: $light-green;
+      min-height: 15px;
+
+      img {
+        @include square (13px);
+        margin-right: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.search-wrapper {
+  &__header {
+    @include display-flex (space-between, center);
+
+    &-title {
+      @include font-style (20px, bold);
+      margin-bottom: 10px;
+    }
+  }
+
+  width: 50%;
+    
+  &:first-child {
+    padding-right: 20px;
+  }
+
+  &:last-child {
+    padding-left: 20px;
+  }
+
+  .btn-red {
+    @include font-style (12px);
+    @include border-style ($radius: 3px);
+    height: 20px;
+    padding: 0 10px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .search-wrapper {
+    width: 100%;
+  
+    &:first-child {
+      padding-right: 0;
+      margin-bottom: 20px;
+    }
+  
+    &:last-child {
+      padding-left: 0;
+    }
+  }
+}
+

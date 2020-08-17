@@ -1,0 +1,9 @@
+@import 'src/assets/styles/colors.scss';
+@import 'src/assets/styles/mixins.scss';
+
+.header {
+  @include font-style (20px, $color: $white, $spacing: 4px);
+  @include display-flex (center, center);
+  height: 60px;
+  background-color: $blue;
+}

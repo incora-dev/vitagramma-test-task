@@ -1,0 +1,53 @@
+@import 'src/assets/styles/colors.scss';
+@import 'src/assets/styles/mixins.scss';
+
+.search-item {
+  @include display-flex (space-between);
+  margin: 15px 0;
+
+  &__price {
+    white-space: nowrap;
+    padding-left: 20px;
+    text-align: end;
+  }
+}
+
+.checkbox {
+  @include position(relative);
+  @include font-style($lineHeight: 14px);
+  @include user-select(none);
+  display: block;
+  padding-left: 30px;
+  cursor: pointer;
+
+  .checkmark {
+    @include display-flex ($align: center);
+    @include square(20px);
+    @include position(absolute, 0, $left: 0);
+    @include border-style(1px solid $border-color, $radius: 2px);
+    background-color: $white;
+    padding-right: 1px;
+  }
+
+  & input {
+    @include position(absolute);
+    @include square(0);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked ~ .checkmark:after {
+      content: url(../../assets/icons/check.svg);
+      @include position(absolute, 0, $left: 0);
+      @include square(20px);
+      @include border-style($radius: 2px);
+      background-color: $blue;
+    }
+
+    &:checked ~ .checkmark {
+      @include border-style(1px solid transparent);
+    }
+  }
+}

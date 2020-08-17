@@ -1,0 +1,32 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/best-price-app/src",
+  "projects": {
+    "item-package-combination": {
+      "type": "library",
+      "root": "libs/item-package-combination",
+      "entryFile": "index",
+      "sourceRoot": "libs/item-package-combination/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/item-package-combination/tsconfig.lib.json"
+      }
+    },
+    "best-price-app": {
+      "type": "application",
+      "root": "apps/best-price-app",
+      "entryFile": "main",
+      "sourceRoot": "apps/best-price-app/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/best-price-app/tsconfig.app.json",
+        "assets": [
+          "**/*.csv"
+        ]
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "apps/best-price-app/tsconfig.app.json"
+  },
+  "monorepo": true
+}

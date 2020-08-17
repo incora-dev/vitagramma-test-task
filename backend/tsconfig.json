@@ -1,0 +1,81 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "paths": {
+      "@lib/item-package-combination": [
+        "libs/item-package-combination/src"
+      ],
+      "@lib/item-package-combination/*": [
+        "libs/item-package-combination/src/*"
+      ],
+      "@lib/item-package-combination/classes/*": [
+        "libs/item-package-combination/src/classes/*"
+      ],
+      "@lib/item-package-combination/interfaces/*": [
+        "libs/item-package-combination/src/interfaces/*"
+      ],
+      "@best-price-app": [
+        "apps/best-price-app/src"
+      ],
+      "@best-price-app/*": [
+        "apps/best-price-app/src/*"
+      ],
+      "@best-price-app/common/*": [
+        "apps/best-price-app/src/common/*"
+      ],
+      "@best-price-app/core/*": [
+        "apps/best-price-app/src/core/*"
+      ],
+      "@best-price-app/decorators/*": [
+        "apps/best-price-app/src/decorators/*"
+      ],
+      "@best-price-app/exceptions/*": [
+        "apps/best-price-app/src/exceptions/*"
+      ],
+      "@best-price-app/filters/*": [
+        "apps/best-price-app/src/filters/*"
+      ],
+      "@best-price-app/guards/*": [
+        "apps/best-price-app/src/guards/*"
+      ],
+      "@best-price-app/interceptors/*": [
+        "apps/best-price-app/src/interceptors/*"
+      ],
+      "@best-price-app/interfaces/*": [
+        "apps/best-price-app/src/src/interfaces/*"
+      ],
+      "@best-price-app/middlewares/*": [
+        "apps/best-price-app/src/middlewares/*"
+      ],
+      "@best-price-app/migrations/*": [
+        "apps/best-price-app/src/migrations/*"
+      ],
+      "@best-price-app/seeds/*": [
+        "apps/best-price-app/src/seeds/*"
+      ],
+      "@best-price-app/seeds/csv/*": [
+        "apps/best-price-app/src/seeds/csv/*"
+      ],
+      "@best-price-app/modules/*": [
+        "apps/best-price-app/src/modules/*"
+      ],
+      "@best-price-app/providers/*": [
+        "apps/best-price-app/src/providers/*"
+      ],
+      "@best-price-app/utils/*": [
+        "apps/best-price-app/src/utils/*"
+      ]
+    }
+  }
+}

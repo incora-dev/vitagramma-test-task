@@ -1,0 +1,198 @@
+@mixin font-style ($size: null, $bold: null, $color: null, $align: null, $lineHeight: null, $transform: null, $spacing: null, $verticalAlign: null, $family: null) {
+  @if $size {
+      font-size: $size;
+  }
+
+  @if $bold {
+      font-weight: $bold;
+  }
+
+  @if $color {
+      color: $color;
+  }
+
+  @if $align {
+      text-align: $align;
+  }
+
+  @if $lineHeight {
+      line-height: $lineHeight;
+  }
+
+  @if $transform {
+      text-transform: $transform;
+  }
+
+  @if $spacing {
+      letter-spacing: $spacing;
+  }
+  @if $verticalAlign {
+      vertical-align: $verticalAlign;
+  }
+  @if $family {
+    font-family: $family;
+}
+}
+
+
+
+@mixin display-flex ($justify: null, $align: null, $wrap: null, $direction: null) {
+  display: flex;
+
+  @if $justify {
+      justify-content: $justify;
+  }
+
+  @if $align {
+      align-items: $align;
+  }
+
+  @if $wrap {
+      flex-wrap: $wrap;
+  }
+
+  @if $direction {
+      flex-direction: $direction;
+  }
+}
+
+@mixin position ($position: null, $top: null, $right: null, $bottom: null, $left: null, $z-index: null) {
+  @if $position {
+      position: $position;
+  }
+
+  @if $top {
+      top: $top;
+  }
+
+  @if $right {
+      right: $right;
+  }
+
+  @if $bottom {
+      bottom: $bottom;
+  }
+
+  @if $left {
+      left: $left;
+  }
+
+  @if $z-index {
+      z-index: $z-index;
+  }
+}
+
+@mixin background-config($repeat: null, $size: null, $position: null) {
+  @if $repeat {
+      background-repeat: $repeat;
+  }
+
+  @if $size {
+      background-size: $size;
+  }
+
+  @if $position {
+      background-position: $position;
+  }
+}
+
+@mixin square ($size) {
+  height: $size;
+  width: $size;
+  min-width: $size;
+  min-height: $size;
+}
+
+@mixin border-style ($border: null,
+  $border-top: null,
+  $border-bottom: null,
+  $border-right: null,
+  $border-left: null,
+  $radius: null,
+  $top-right-radius: null,
+  $top-left-radius: null,
+  $bottom-left-radius: null,
+  $bottom-right-radius: null
+) {
+  @if $border {
+      border: $border;
+  }
+
+  @if $border-top {
+      border-top: $border-top;
+  }
+
+  @if $border-bottom {
+      border-bottom: $border-bottom;
+  }
+
+  @if $border-right {
+      border-right: $border-right;
+  }
+
+  @if $border-left {
+      border-left: $border-left;
+  }
+
+  @if $radius {
+      border-radius: $radius;
+  }
+
+  @if $top-right-radius {
+      border-top-right-radius: $top-right-radius;
+  }
+
+  @if $top-left-radius {
+      border-top-left-radius: $top-left-radius;
+  }
+
+  @if $bottom-right-radius {
+      border-bottom-right-radius: $bottom-right-radius;
+  }
+
+  @if $top-left-radius {
+      border-top-left-radius: $top-left-radius;
+  }
+
+  @if $bottom-left-radius {
+    border-bottom-left-radius: $bottom-left-radius;
+}
+}
+
+@mixin user-select ($value) {
+  user-select: $value;
+  -o-user-select: $value;
+  -ms-user-select: $value;
+  -moz-user-select: $value;
+  -webkit-user-select: $value;
+}
+
+@mixin transform ($value) {
+  transform: $value;
+  -o-transform: $value;
+  -ms-transform: $value;
+  -moz-transform: $value;
+  -webkit-transform: $value;
+}
+
+@mixin transition ($value, $function: null) {
+  transition: $value;
+  -o-transition: $value;
+  -moz-transition: $value;
+  -webkit-transition: $value;
+  -ms-transition: $value;
+
+  @if $function {
+    transition-timing-function: $function;
+    -moz-transition-timing-function: $function;
+    -o-transition-timing-function: $function;
+    -ms-transition-timing-function: $function;
+}
+
+}
+@mixin background ($value) {
+  background: -moz-linear-gradient($value);
+  background: -webkit-linear-gradient($value);
+  background: -o-linear-gradient($value);
+  background: -ms-linear-gradient($value);
+}

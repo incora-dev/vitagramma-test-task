@@ -1,0 +1,18 @@
+@import 'src/assets/styles/colors.scss';
+@import 'src/assets/styles/mixins.scss';
+
+.result-block {
+  @include border-style ($border-bottom: 1px solid $border-color);
+  @include position (relative);
+  padding: 20px;
+  background: $white;
+
+  &:last-child {
+    border-bottom: none
+  }
+
+  &__price {
+    @include position (absolute, 20px, 20px);
+    @include font-style ($color: $green);
+  }
+}

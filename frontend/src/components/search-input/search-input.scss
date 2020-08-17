@@ -1,0 +1,21 @@
+@import 'src/assets/styles/colors.scss';
+@import 'src/assets/styles/mixins.scss';
+
+.search-input {
+  @include position (relative);
+  width: 100%;
+  user-select: none;
+
+  input {
+    @include border-style (none, $radius: 10px);
+    @include font-style (16px);
+    width: 100%;
+    height: 40px;
+    background-color: rgba($border-color, 0.3);
+    padding-left: 60px;
+  }
+
+  &__icon {
+    @include position (absolute, 7px, $left: 15px);
+  }
+}

@@ -1,0 +1,48 @@
+@import './assets/styles/mixins.scss';
+@import './assets/styles/colors.scss';
+@import './assets/font/flat-icons/flaticon';
+
+* {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen';
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input, button, select, a {
+  &:focus {
+    outline: none;
+  }
+}
+
+.btn {
+  @include border-style (none, $radius: 10px);
+  @include font-style (20px, $color: $white);
+  background: $green;
+  padding: 10px 30px;
+  transition: .3s;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: $gray;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  &-red {
+    background-color: $red;
+
+    &:hover {
+      background-color: $dark-red;
+    }
+  }
+
+  &-green {
+    background-color: $green;
+    width: 150px;
+    
+    &:hover {
+      background-color: $dark-green;
+    }
+  }
+}
