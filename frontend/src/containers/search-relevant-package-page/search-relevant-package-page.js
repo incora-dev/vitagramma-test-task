@@ -42,7 +42,7 @@ function SearchRelevantPackagePage() {
     if (!selectedTests.some(({ id }) => id === item.id)) {
       setSelectedTests([...selectedTests, item]);
     } else {
-      deleteTest(item)
+      deleteTest(item);
     }
   }
 
@@ -50,22 +50,32 @@ function SearchRelevantPackagePage() {
     if (!selectedGroups.some(({ id }) => id === item.id)) {
       setSelectedGroups([...selectedGroups, item]);
     } else {
-      deleteGroup(item)
+      deleteGroup(item);
     }
   }
 
   const search = () => {
-    const groupsIds = selectedGroups.reduce((ids, group) => [
+    const searchData = {};
+    const testsIds = Array.from(new Set([...selectedTests.map(({ id }) => id)]));
+    const groupTests = selectedGroups.map((group) => group.tests.map(({ id }) => id));
+    const groupsIds = Array.from( new Set(selectedGroups.reduce((ids, group) => [
       ...ids,
       ...group.tests.map(({ id }) => id),
-    ], []);
+    ], [])));
     const ids = Array.from(new Set([...selectedTests.map(({ id }) => id), ...groupsIds]));
-    dispatch(ActionTypes.search.request(ids))
+    if (groupsIds.length) {
+      searchData.groups = groupTests;
+    }
+    if (testsIds.length) {
+      searchData.tests = testsIds;
+    }
+    searchData.testIds = ids;
+    dispatch(ActionTypes.search.request(searchData));
   }
 
   const loadMoreTests = () => {
-    setOffsetTests(offsetTests + DEFAULT_LIMIT)
-    dispatch(ActionTypes.loadMoreTests.request(LIMIT, offsetTests + DEFAULT_LIMIT, testsSearch))
+    setOffsetTests(offsetTests + DEFAULT_LIMIT);
+    dispatch(ActionTypes.loadMoreTests.request(LIMIT, offsetTests + DEFAULT_LIMIT, testsSearch));
   }
 
   const loadMoreGroups = () => {

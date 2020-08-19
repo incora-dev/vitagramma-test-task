@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt-js';
+import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 

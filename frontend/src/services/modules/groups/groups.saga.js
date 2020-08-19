@@ -28,9 +28,9 @@ function* loadMoreGroupsSaga() {
   yield takeLatest(ActionTypes.LOAD_MORE_GROUPS, loadMoreGroups);
 }
 
-function* search({ testIds }) {
+function* search({ searchData }) {
   try {
-    const { data } = yield call(Api.search, testIds);
+    const { data } = yield call(Api.search, searchData);
     yield put(ActionTypes.search.success(data));
   } catch (e) {
     yield put(ActionTypes.search.failure(e));

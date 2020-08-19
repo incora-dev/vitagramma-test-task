@@ -23,7 +23,7 @@ export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
 
 export const search = {
-  request: (testIds) => ({ type: SEARCH, testIds }),
+  request: (searchData) => ({ type: SEARCH, searchData }),
   success: (results) => ({ type: SEARCH_SUCCESS, results }),
   failure: (error) => ({ type: SEARCH_FAILURE, error })
 }

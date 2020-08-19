@@ -9,6 +9,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 
+
 import { RelevantItemGroupsAlgorithm } from '@lib/item-package-combination';
 import { GroupService } from '@best-price-app/modules/group/services';
 import { TestService } from '@best-price-app/modules/test/services';
@@ -38,22 +39,20 @@ export class GroupController {
   @Post('best-price')
   @HttpCode(HttpStatus.OK)
   public async getBestPriceData(
-    @Body('testIds') testIds,
+    @Body('searchData') searchData,
   ) {
     try {
-      const tests = await this._testService.getTestsByIds(testIds);
-      const selectedTests = {
-        ids: testIds,
-        data: tests,
-      };
-      const matchedGroups = await this._groupService.getMatchedGroups(testIds);
+      const testData = await this._testService.getTestsByIds(searchData.testIds);
+      const selectedTests = this._groupService.combineGroups(searchData, testData);
 
-      let relevantItemsObj = new RelevantItemGroupsAlgorithm(selectedTests, MATCH_RESULTS_COUNT);
-      const results = relevantItemsObj.solve(matchedGroups, selectedTests);
-
+      const groupedRelevantItems = await this._groupService.searchRelevantItems(selectedTests);
+      
+      const relevantItemsResultObj = new RelevantItemGroupsAlgorithm(searchData.testIds, MATCH_RESULTS_COUNT);
+      const results = relevantItemsResultObj.combineRelevantItems(groupedRelevantItems);
+      
       return this._groupService.fillResults(results);
-    } catch {
-      throw new BadRequestException();
+    } catch (err) {
+      throw new BadRequestException(err);
     }
   }
 }

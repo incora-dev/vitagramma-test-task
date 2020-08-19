@@ -5,7 +5,8 @@ export default {
     return axiosInstance.get('groups', { params })
   },
 
-  async search(testIds) {
-    return axiosInstance.post('groups/best-price', { testIds })
+  async search(searchData) {
+
+    return axiosInstance.post('groups/best-price', { searchData })
   },
 }

@@ -2,18 +2,22 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Raw } from 'typeorm';
 
 import { RelevantItem } from '@lib/item-package-combination';
+import { RelevantItemGroupsAlgorithm } from '@lib/item-package-combination';
 import { GroupEntity } from '@best-price-app/modules/group/entities/group.entity';
 import { GroupRepository } from '@best-price-app/modules/group/repositories';
 import { TestService } from '@best-price-app/modules/test/services';
 import {
   DEFAULT_LIMIT,
   DEFAULT_OFFSET,
+  MATCH_RESULTS_COUNT,
   DEFAULT_MAX_EXTRA_TESTS_PERCENT,
   DEFAULT_MIN_MATCHED_TESTS_PERCENT,
   SMALL_TEST_AMOUNT_THRESHOLD,
   DEFAULT_MAX_EXTRA_TESTS_PERCENT_FOR_SMALL_TEST_AMOUNT,
 } from '@best-price-app/common/constants';
-import { Group } from '@best-price-app/interfaces';
+import { Group, Test } from '@best-price-app/interfaces';
+import { SearchDto } from '@best-price-app/modules/group/dtos';
+import { SelectedTests } from '@lib/item-package-combination/interfaces/selected-tests.interface';
 
 @Injectable()
 export class GroupService {
@@ -35,6 +39,31 @@ export class GroupService {
       skip: offset,
       take: limit,
     });
+  }
+
+  combineGroups(searchData: SearchDto, testData: Array<Test>) {
+    let groupData = [];
+    if (searchData.groups) groupData.push(...searchData.groups);
+    if (searchData.tests) groupData.push(searchData.tests);
+    let combinedGroups = (groupData.length) ? RelevantItemGroupsAlgorithm.combineGroups(groupData, testData) : [];
+    if (searchData.groups) {
+      combinedGroups.push({
+        ids: searchData.testIds,
+        data: testData,
+      });
+    }
+    return combinedGroups;
+  }
+
+  searchRelevantItems(selectedTests: Array<SelectedTests>): Promise<RelevantItem[][]> {
+    return Promise.all(
+      selectedTests.map(async (test) => {
+        const matchedGroups = await this.getMatchedGroups(test.ids);
+
+        const relevantItemsObj = new RelevantItemGroupsAlgorithm(test, MATCH_RESULTS_COUNT);
+        return relevantItemsObj.solve(matchedGroups, test);
+      })
+    );
   }
 
   async getMatchedGroups(

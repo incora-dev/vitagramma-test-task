@@ -2,15 +2,17 @@ import * as _ from "lodash";
 
 import { Queue } from '@lib/item-package-combination/classes/queue.class';
 import { RelevantItem } from '@lib/item-package-combination/classes/relevant-item.class';
-import { Group } from '@best-price-app/interfaces';
+import { Group, Test } from '@best-price-app/interfaces';
 import { SelectedTests } from '@lib/item-package-combination/interfaces/selected-tests.interface';
+import { CommonUtils } from '@lib/item-package-combination/utils/common.utils';
 
 export class RelevantItemGroupsAlgorithm {
 
     readonly BRUTE_LIMIT = 30;
     readonly DP_LIMIT = 20;
     readonly SIMILARUTY_LIMIT = 0.5;
-    readonly DUPLICATION_LIMIT = 0.25;
+    readonly DUPLICATION_LIMIT = 0.2;
+    static readonly GROUP_SIMILARUTY_LIMIT = 0.2;
 
     public selectedTests: SelectedTests;
     public limit: number;
@@ -19,6 +21,46 @@ export class RelevantItemGroupsAlgorithm {
     constructor(selectedTests: SelectedTests, limit: number) {
       this.selectedTests = selectedTests;
       this.limit = limit;
+    }
+
+    static combineGroups(groups: Array<any>, testData: Array<Test>): Array<SelectedTests> {
+      if (!groups.length) return [];
+      let combinedGroups = [];
+      let group = groups.shift();
+      while (group) {
+        if (groups.length) {
+          const similarGroups = _.filter(groups, (el) => CommonUtils.calculateSimilarity(group, el) >= this.GROUP_SIMILARUTY_LIMIT);
+          groups = _.difference(groups, similarGroups);
+          similarGroups.push(group);
+          combinedGroups.push(_.uniq(_.flattenDeep(similarGroups)));
+        } else {
+          combinedGroups.push(group);
+        }
+        group = groups.shift();
+      }
+      combinedGroups = _.map(combinedGroups, (groupIds) => {
+        const groupData = _.map(groupIds, (id) => _.find(testData, test => test.id == id));
+        return {
+          ids: groupIds,
+          data: groupData
+        }
+      })
+      return combinedGroups;
+    }
+
+    public combineRelevantItems(relevantItems: Array<Array<RelevantItem>>): Array<RelevantItem> {
+      relevantItems = relevantItems.sort((arr1, arr2) => arr1.length < arr2.length ? 1 : -1);
+      let results = _.map(relevantItems.shift(), relevantItem => relevantItem );
+      let nextRelevantItemArray = relevantItems.shift();
+      while (nextRelevantItemArray) {
+        const combinationArr = _.map(results, (item) => {
+          const subCombinationArray = _.map(nextRelevantItemArray, nextItem => item.combine(nextItem, this.DUPLICATION_LIMIT))
+          return this._getTopNItems(subCombinationArray, 1)[0]; //TO-DO: check it
+        });
+        results = [...combinationArr];
+        nextRelevantItemArray = relevantItems.shift();
+      }
+      return this._getTopNItems(results, this.limit);
     }
     
     private _saveItemToResults(data: Object): void { 
@@ -68,7 +110,7 @@ export class RelevantItemGroupsAlgorithm {
     solve(matchedGroups: Array<Group>, testForSearch: SelectedTests) {
       let matchedGroupsQueue = new Queue<Group>();
       _.forEach(matchedGroups, (group) => matchedGroupsQueue.push(group)); 
-      if (!testForSearch.ids.length && !matchedGroupsQueue.length()) return []; // add if groups 0!!!!!!!!!!!
+      if (!testForSearch.ids.length && !matchedGroupsQueue.length()) return []; 
       if (!matchedGroupsQueue.length()) {
         this._saveItemToResults({ tests: testForSearch.data });
         return this._getTopNItems(this._bestItems, this.limit);
@@ -79,16 +121,15 @@ export class RelevantItemGroupsAlgorithm {
     }
 
     private _generateOptions(matchedGroupsQueue: Queue<Group>, testForSearch: SelectedTests) {
-      // return this.generateDP(matchedGroupsQueue, testForSearch);
-      if (matchedGroupsQueue.length() <= this.BRUTE_LIMIT) {
-        return this.generateBrute(matchedGroupsQueue, testForSearch);
+      if (testForSearch.ids.length <= this.DP_LIMIT) {
+        return this.generateDP(matchedGroupsQueue, testForSearch);
       } else {
-        if (testForSearch.ids.length <= this.DP_LIMIT) {
-          return this.generateDP(matchedGroupsQueue, testForSearch);
+        if (matchedGroupsQueue.length() <= this.BRUTE_LIMIT) {
+          return this.generateBrute(matchedGroupsQueue, testForSearch);
         } else {
           return this.generateGreedy(matchedGroupsQueue, testForSearch);
-        }   
-      }  
+        }  
+      }   
     }
     
     generateBrute(

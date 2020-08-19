@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 
 import { Group, Test } from '@best-price-app/interfaces';
+import { CommonUtils } from '@lib/item-package-combination/utils/common.utils';
 
 enum DataTypes {
     groups,
@@ -33,6 +34,12 @@ export class RelevantItem {
       }
     }
 
+    private _getAllTestIds() {
+      let allIds = _.map(this.groups, (group) => group.testIds);
+      allIds.push(_.map(this.tests, (test) => test.id));
+      return _.uniq(_.flattenDeep(allIds));
+    }
+
     clone(): RelevantItem {
       let item = new RelevantItem();
       let data = {
@@ -43,4 +50,14 @@ export class RelevantItem {
       item.save(data);
       return item;
     }
+
+    combine(item: RelevantItem, similarityLimit: number) {
+      let allIds = this._getAllTestIds();
+      let allItemIds = item._getAllTestIds();
+      if (CommonUtils.calculateSimilarity(allIds, allItemIds) <= similarityLimit) {
+        this.save(item);
+      }
+      return this;
+    }
+
   }
